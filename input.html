@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Data</title>
+</head>
+<body>
+    <form id="customerForm" action="/submit_data" method="post">
+        <input type="hidden" id="distId" name="distId">
+
+        <label for="distName">Distributor Name:</label>
+        <input type="text" id="distName" name="distName"><br><br>
+
+        <label for="distAddress">Distributor Address:</label>
+        <input type="text" id="distAddress" name="distAddress"><br><br>
+
+        <label for="distPhone">Distributor Phone:</label>
+        <input type="text" id="distPhone" name="distPhone"><br><br>
+
+        <label for="distEmail">Distributor Email:</label>
+        <input type="email" id="distEmail" name="distEmail"><br><br>
+
+        <label for="website">Website:</label>
+        <input type="text" id="website" name="website"><br><br>
+
+        <label for="purchaseNeeds">Purchase Needs:</label>
+        <input type="text" id="purchaseNeeds" name="purchaseNeeds"><br><br>
+
+        <label for="qty">Quantity:</label>
+        <input type="number" id="qty" name="qty"><br><br>
+
+        <label for="purchasePrice">Purchase Price:</label>
+        <input type="number" id="purchasePrice" name="purchasePrice"><br><br>
+
+        <label for="distProdName">Distributor Product Name:</label>
+        <input type="text" id="distProdName" name="distProdName"><br><br>
+
+        <label for="distProdDesc">Distributor Product Description:</label>
+        <input type="text" id="distProdDesc" name="distProdDesc"><br><br>
+
+        <label for="imgDist">Image URL:</label>
+        <input type="text" id="imgDist" name="imgDist"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function submitFormData() {
+            var formData = new FormData(document.getElementById("customerForm"));
+
+            var distId = generateDistId(); 
+
+            formData.set('distId', distId);
+
+            fetch('/submit_data', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.success) {
+                    alert("Customer data submitted successfully!");
+                } else {
+                    alert("Failed to submit customer data.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        function generateDistId() {
+            var randomNumber = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+            return 'DBS' + randomNumber;
+        }
+    </script>
+    </body>
+</html>
